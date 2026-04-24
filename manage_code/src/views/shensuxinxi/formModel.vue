@@ -1,4 +1,4 @@
-<template>
+﻿<template>
 	<div>
 		<el-dialog modal-class="edit_form_modal" class="edit_form" v-model="formVisible" :title="formTitle" width="50%" destroy-on-close :fullscreen='false'>
 			<el-form class="formModel_form" ref="formRef" :model="form" :rules="rules">
@@ -468,19 +468,19 @@
 		}
 
 		context?.$http({
-			url: `${context?.$toolUtil.storageGet('sessionTable')}/session`,
+			url: `${context?.$toolUtil.roleStorageGet('sessionTable')}/session`,
 			method: 'get'
 		}).then(res => {
 			var json = res.data.data
-			if(json.hasOwnProperty('gongsizhanghao')&& context?.$toolUtil.storageGet("role")!="管理员"){
+			if(json.hasOwnProperty('gongsizhanghao')&& context?.$toolUtil.roleStorageGet("role")!="管理员"){
 				form.value.gongsizhanghao = json.gongsizhanghao
 				disabledForm.value.gongsizhanghao = true;
 			}
-			if(json.hasOwnProperty('gongsimingcheng')&& context?.$toolUtil.storageGet("role")!="管理员"){
+			if(json.hasOwnProperty('gongsimingcheng')&& context?.$toolUtil.roleStorageGet("role")!="管理员"){
 				form.value.gongsimingcheng = json.gongsimingcheng
 				disabledForm.value.gongsimingcheng = true;
 			}
-			if(json.hasOwnProperty('lianxifangshi')&& context?.$toolUtil.storageGet("role")!="管理员"){
+			if(json.hasOwnProperty('lianxifangshi')&& context?.$toolUtil.roleStorageGet("role")!="管理员"){
 				form.value.lianxifangshi = json.lianxifangshi
 				disabledForm.value.lianxifangshi = true;
 			}

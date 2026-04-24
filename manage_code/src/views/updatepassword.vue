@@ -1,4 +1,4 @@
-<template>
+﻿<template>
 	<div>
 		<div class="center_view edit_form">
 			<el-form class="password_form" ref="passwordFormRef" :model="form" label-width="120px" :rules="rules">
@@ -93,7 +93,7 @@
 
 	}
 	const getInfo = () => {
-		sessionTable.value = context?.$toolUtil.storageGet('sessionTable')
+		sessionTable.value = context?.$toolUtil.roleStorageGet('sessionTable')
 		context?.$http({
 			url: `${sessionTable.value}/session`,
 			method: 'get'

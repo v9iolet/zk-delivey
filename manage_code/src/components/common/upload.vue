@@ -162,7 +162,7 @@
 	const init = () => {
 		uploadUrl.value = context?.$config.name + '/' + action.value
 		uploadHeaders.value = {
-			'Token': context?.$toolUtil.storageGet("Token")
+			'Token': context?.$toolUtil.roleStorageGet("Token")
 		}
 		if (tip.value) {
 			tips.value = tip.value

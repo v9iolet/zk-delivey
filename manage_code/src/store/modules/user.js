@@ -14,19 +14,19 @@ export default {
     getters:{
         session(state){
             if(!state.session.id){
-                return toolUtil.storageGet('back_session')?JSON.parse(toolUtil.storageGet('back_session')):{}
+                return toolUtil.roleStorageGet('back_session')?JSON.parse(toolUtil.roleStorageGet('back_session')):{}
             }
             return state.session
         },
         avatar(state){
             let key;
-            if(toolUtil.storageGet('sessionTable') == 'yonghu'){
+            if(toolUtil.roleStorageGet('sessionTable') == 'yonghu'){
                 key = 'touxiang'
             }
-            if(toolUtil.storageGet('sessionTable') == 'kuaidiyuan'){
+            if(toolUtil.roleStorageGet('sessionTable') == 'kuaidiyuan'){
                 key = 'touxiang'
             }
-            if(toolUtil.storageGet('sessionTable') == 'wuliugongsi'){
+            if(toolUtil.roleStorageGet('sessionTable') == 'wuliugongsi'){
                 key = 'yingyezhizhao'
             }
             let avatar = state.session[key]
@@ -36,20 +36,20 @@ export default {
     },
     actions:{
         async getSession({commit}){
-            let sessionTable = toolUtil.storageGet('sessionTable')
+            let sessionTable = toolUtil.roleStorageGet('sessionTable')
             if(!sessionTable){
                 router.push('/login')
                 return
             }
             let res = await http.get(`${sessionTable}/session`)
             if(res.data.code==0){
-                localStorage.setItem('admin_userid',res.data.data.id)
+                localStorage.setItem(toolUtil.roleKey('admin_userid'),res.data.data.id)
                 commit('set_session',res.data.data)
             }
             return res
         },
         async update({commit},data){
-            let res = await http.post(`${toolUtil.storageGet('sessionTable')}/update`,data)
+            let res = await http.post(`${toolUtil.roleStorageGet('sessionTable')}/update`,data)
             if(res.data.code==0){
                 commit('assign_session',data)
             }
@@ -62,11 +62,11 @@ export default {
     mutations:{
         set_session(state,data){
             state.session = data
-            toolUtil.storageSet('back_session',JSON.stringify(state.session))
+            toolUtil.roleStorageSet('back_session',JSON.stringify(state.session))
         },
         assign_session(state,data){
             Object.assign(state.session,JSON.parse(JSON.stringify(data)))
-            toolUtil.storageSet('back_session',JSON.stringify(state.session))
+            toolUtil.roleStorageSet('back_session',JSON.stringify(state.session))
         },
         loginOut(state,data){
             state.session={},

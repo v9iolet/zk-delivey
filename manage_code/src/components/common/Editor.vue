@@ -86,7 +86,7 @@
 
 				// 自定义增加 http  header
 				headers: {
-					'Token': context?.$toolUtil.storageGet('Token')
+					'Token': context?.$toolUtil.roleStorageGet('Token')
 				},
 
 				// 跨域是否传递 cookie ，默认为 false

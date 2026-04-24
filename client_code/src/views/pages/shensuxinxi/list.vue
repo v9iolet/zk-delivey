@@ -24,7 +24,7 @@
 			</div>
 			<div class="search_btn_view">
 				<el-button class="search_btn" type="primary" @click="searchClick">搜索</el-button>
-				<el-button class="add_btn" type="success" v-if="btnAuth('shensuxinxi','新增')" @click="addClick">新增</el-button>
+				<el-button class="add_btn" type="success" v-if="centerType||btnAuth('shensuxinxi','新增')" @click="addClick">新增</el-button>
 			</div>
 		</el-form>
 		<div class="page_list">

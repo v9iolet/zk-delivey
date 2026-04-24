@@ -1,4 +1,4 @@
-<template>
+﻿<template>
 	<div>
 		<el-dialog modal-class="edit_form_modal" class="edit_form" v-model="formVisible" :title="formTitle" width="50%" destroy-on-close :fullscreen='false'>
 			<el-form class="formModel_form" ref="formRef" :model="form" :rules="rules">
@@ -475,11 +475,11 @@
 		}
 
 		context?.$http({
-			url: `${context?.$toolUtil.storageGet('sessionTable')}/session`,
+			url: `${context?.$toolUtil.roleStorageGet('sessionTable')}/session`,
 			method: 'get'
 		}).then(res => {
 			var json = res.data.data
-			if(context?.$toolUtil.storageGet("role")!="管理员" && !context?.$toolUtil.storageGet("isAdmin")) {
+			if(context?.$toolUtil.roleStorageGet("role")!="管理员" && !context?.$toolUtil.storageGet("isAdmin")) {
 				disabledForm.value.dingdanzhuangtai = true;
 			}
 		})

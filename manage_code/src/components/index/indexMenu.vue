@@ -57,7 +57,7 @@
 		if (menus) {
 			menuList.value = menus
 		}
-		role.value = context?.$toolUtil.storageGet('role')
+		role.value = context?.$toolUtil.roleStorageGet('role')
 
 		for (let i = 0; i < menuList.value.length; i++) {
 			if (menuList.value[i].roleName == role.value) {

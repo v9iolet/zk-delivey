@@ -13,7 +13,7 @@
 		<div class="top_right_view">
 			<el-dropdown class="avatar-container" trigger="hover">
 				<div class="avatar-wrapper">
-					<div class="nickname">欢迎 {{$toolUtil.storageGet('adminName')}}</div>
+					<div class="nickname">欢迎 {{$toolUtil.roleStorageGet('adminName')}}</div>
 					<img class="user-avatar" :src="store.getters['user/avatar']">
 					<el-icon class="el-icon-arrow-down">
 						<arrow-down />
@@ -65,8 +65,8 @@
 	const router = useRouter()
 	const context = getCurrentInstance()?.appContext.config.globalProperties;
 	const emit = defineEmits(['collapseChange'])
-	const role = context?.$toolUtil.storageGet('sessionTable')
-	const roleName = context?.$toolUtil.storageGet('role')
+	const role = context?.$toolUtil.roleStorageGet('sessionTable')
+const roleName = context?.$toolUtil.roleStorageGet('role')
 
 	const props = defineProps({
 		collapse: Boolean
@@ -95,7 +95,7 @@
 		}).then(()=>{
 			axios.get(process.env.VUE_APP_BASE_API + '/mysqldump', {
 			    headers: {
-			      token: context?.$toolUtil.storageGet("Token")
+			      token: context?.$toolUtil.roleStorageGet("Token")
 			    },
 			    responseType: "blob"
 			  }).then(({data})=>{

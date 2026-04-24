@@ -89,11 +89,12 @@
 			url: `${tableName.value}/login?username=${loginForm.value.username}&password=${loginForm.value.password}`,
 			method: 'post'
 		}).then(res => {
-			context?.$toolUtil.storageSet("Token", res.data.token);
-			context?.$toolUtil.storageSet("role", loginForm.value.role);
-			context?.$toolUtil.storageSet("sessionTable", tableName.value);
-			context?.$toolUtil.storageSet("adminName", loginForm.value.username);
-			store.dispatch('user/getSession')	//vuex中获取用户信息并保存
+			context?.$toolUtil.storageSet("activeRole", tableName.value);
+			context?.$toolUtil.roleStorageSet("Token", res.data.token);
+			context?.$toolUtil.roleStorageSet("role", loginForm.value.role);
+			context?.$toolUtil.roleStorageSet("sessionTable", tableName.value);
+			context?.$toolUtil.roleStorageSet("adminName", loginForm.value.username);
+			store.dispatch('user/getSession')
 			context?.$router.push('/')
 		}, err => {
 		})

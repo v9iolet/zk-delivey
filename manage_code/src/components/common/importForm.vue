@@ -81,7 +81,7 @@
 	const init = () => {
 		uploadUrl.value = context?.$config.name + '/' + `${tableName.value}/importExcel`
 		uploadHeaders.value = {
-			'Token': context?.$toolUtil.storageGet("Token")
+			'Token': context?.$toolUtil.roleStorageGet("Token")
 		}
 		if (tip.value) {
 			tips.value = tip.value

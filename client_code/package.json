@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
+    "stop": "npx kill-port 8082",
     "build": "vue-cli-service build"
   },
   "dependencies": {

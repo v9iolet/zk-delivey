@@ -1,4 +1,4 @@
-<template>
+﻿<template>
 	<div>
 		<div class="center_view">
 			<div class="list_search_view">
@@ -239,7 +239,7 @@
 		let arr = file.replace(new RegExp('file/', "g"), "")
 		axios.get((location.href.split(context?.$config.name).length>1 ? location.href.split(context?.$config.name)[0] :'') + context?.$config.name + '/file/download?fileName=' + arr, {
 			headers: {
-				token: context?.$toolUtil.storageGet('Token')
+				token: context?.$toolUtil.roleStorageGet('Token')
 			},
 			responseType: "blob"
 		}).then(({

@@ -14,7 +14,7 @@ const http = axios.create({
 })
 // 请求拦截
 http.interceptors.request.use(config => {
-    config.headers['Token'] = toolUtil.storageGet('Token') // 请求头带上token
+    config.headers['Token'] = toolUtil.roleStorageGet('Token')
     return config
 }, error => {
     return Promise.reject(error)

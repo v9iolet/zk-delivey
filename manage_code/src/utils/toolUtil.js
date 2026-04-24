@@ -34,6 +34,27 @@ const toolUtil = {
 			}
 		})
 	},
+	getActiveRole() {
+		let activeRole = localStorage.getItem('activeRole')
+		if (!activeRole) {
+			activeRole = localStorage.getItem('sessionTable') || ''
+		}
+		return activeRole
+	},
+	roleKey(key) {
+		let role = this.getActiveRole()
+		return role ? `${key}_${role}` : key
+	},
+	roleStorageSet(key, value) {
+		localStorage.setItem(this.roleKey(key), value);
+	},
+	roleStorageGet(key) {
+		let fullKey = this.roleKey(key)
+		return localStorage.getItem(fullKey) ? localStorage.getItem(fullKey) : "";
+	},
+	roleStorageRemove(key) {
+		localStorage.removeItem(this.roleKey(key));
+	},
 	storageSet(key, value) {
 		localStorage.setItem(key, value);
 	},
@@ -47,11 +68,22 @@ const toolUtil = {
 		localStorage.removeItem(key);
 	},
 	storageClear() {
-
+		let role = this.getActiveRole()
+		if (role) {
+			localStorage.removeItem(`Token_${role}`);
+			localStorage.removeItem(`role_${role}`);
+			localStorage.removeItem(`sessionTable_${role}`);
+			localStorage.removeItem(`adminName_${role}`);
+			localStorage.removeItem(`back_session_${role}`);
+			localStorage.removeItem(`admin_userid_${role}`);
+		}
+		localStorage.removeItem('activeRole');
 		localStorage.removeItem('Token');
 		localStorage.removeItem('role');
 		localStorage.removeItem('sessionTable');
 		localStorage.removeItem('adminName');
+		localStorage.removeItem('back_session');
+		localStorage.removeItem('admin_userid');
 	},
 	/**
 	 * 邮箱
@@ -184,7 +216,7 @@ const toolUtil = {
 	 * @param {*} key
 	 */
 	isAuth(tableName, key,) {
-		let role = toolUtil.storageGet("role");
+		let role = toolUtil.roleStorageGet("role");
 		if (!role) {
 			role = '管理员';
 		}
