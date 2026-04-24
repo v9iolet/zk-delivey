@@ -16,14 +16,14 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Current Database: `cl1006354156`
+-- Current Database: `zk-delivey`
 --
 
-/*!40000 DROP DATABASE IF EXISTS `cl1006354156`*/;
+/*!40000 DROP DATABASE IF EXISTS `zk-delivey`*/;
 
-CREATE DATABASE /*!32312 IF NOT EXISTS*/ `cl1006354156` /*!40100 DEFAULT CHARACTER SET utf8mb4 */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `zk-delivey` /*!40100 DEFAULT CHARACTER SET utf8mb4 */;
 
-USE `cl1006354156`;
+USE `zk-delivey`;
 
 --
 -- Table structure for table `config`

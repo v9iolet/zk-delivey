@@ -221,6 +221,10 @@
             router.push(`/index/storeupList?centerType=1&type=${item.type}`)
             return;
         }
+        if(item.tableName=='dingdanxiadan'){
+            router.push(`/index/dingdanxiadanList?centerType=1`)
+            return
+        }
         router.push(`/index/${item.classname||item.tableName}List?centerType=1${item.menuJump?'&menuJump='+item.menuJump:''}`)
 	}
     const hasBack = (menu)=>{

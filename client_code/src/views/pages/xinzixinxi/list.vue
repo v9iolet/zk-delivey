@@ -1,4 +1,4 @@
-<template>
+﻿<template>
 	<div class="list-page" :style='{}'>
         <div class="breadcrumb-wrapper" style="width: 100%;">
             <div class="bread_view">
@@ -86,9 +86,9 @@
 								{{scope.row.kuaidiyuanzhanghao}}
 							</template>
 						</el-table-column>
-						<el-table-column label="快递员姓名姓名" :resizable='true' align="left" header-align="left">
+						<el-table-column label="快递员姓名" :resizable='true' align="left" header-align="left">
 							<template #default="scope">
-								{{scope.row.kuaidiyuanxingmingxingming}}
+								{{scope.row.kuaidiyuanxingming}}
 							</template>
 						</el-table-column>
 						<el-table-column label="公司账号" :resizable='true' align="left" header-align="left">

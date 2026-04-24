@@ -1,4 +1,4 @@
-<template>
+﻿<template>
 	<div class="detail-page" :style='{}'>
         <div class="breadcrumb-wrapper" style="width: 100%;">
             <div class="bread_view">
@@ -56,8 +56,8 @@
 					<div  class="info_text" >{{detail.kuaidiyuanzhanghao}}</div>
 				</div>
 				<div class="info_item">
-					<div class="info_label">快递员姓名姓名</div>
-					<div  class="info_text" >{{detail.kuaidiyuanxingmingxingming}}</div>
+					<div class="info_label">快递员姓名</div>
+					<div  class="info_text" >{{detail.kuaidiyuanxingming}}</div>
 				</div>
 				<div class="info_item">
 					<div class="info_label">公司账号</div>

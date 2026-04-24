@@ -1,4 +1,4 @@
-<template>
+﻿<template>
 	<div class="edit_view" :style='{}'>
         <div class="breadcrumb-wrapper" style="width: 100%;">
             <div class="bread_view">
@@ -110,12 +110,12 @@
 					</el-form-item>
 				</el-col>
 				<el-col :span="24">
-					<el-form-item label="快递员姓名姓名" prop="kuaidiyuanxingmingxingming">
+					<el-form-item label="快递员姓名" prop="kuaidiyuanxingming">
 						<el-input class="list_inp"
-                                  v-model="form.kuaidiyuanxingmingxingming"
-                                  placeholder="快递员姓名姓名"
+                                  v-model="form.kuaidiyuanxingming"
+                                  placeholder="快递员姓名"
                                   type="text"
-							      :readonly="!isAdd||disabledForm.kuaidiyuanxingmingxingming?true:false" />
+							      :readonly="!isAdd||disabledForm.kuaidiyuanxingming?true:false" />
 					</el-form-item>
 				</el-col>
 
@@ -193,7 +193,7 @@
 		shifagongzi: 0,
 		gongzibeizhu: '',
 		kuaidiyuanzhanghao: '',
-		kuaidiyuanxingmingxingming: '',
+		kuaidiyuanxingming: '',
 		gongsizhanghao: '',
 		gongsimingcheng: '',
 	})
@@ -211,7 +211,7 @@
 		shifagongzi : false,
 		gongzibeizhu : false,
 		kuaidiyuanzhanghao : false,
-		kuaidiyuanxingmingxingming : false,
+		kuaidiyuanxingming : false,
 		gongsizhanghao : false,
 		gongsimingcheng : false,
 	})
@@ -252,7 +252,7 @@
 		],
 		kuaidiyuanzhanghao: [
 		],
-		kuaidiyuanxingmingxingming: [
+		kuaidiyuanxingming: [
 		],
 		gongsizhanghao: [
 		],
@@ -354,9 +354,9 @@
 					disabledForm.value.kuaidiyuanzhanghao = true;
 					continue;
 				}
-				if(x=='kuaidiyuanxingmingxingming'){
-					form.value.kuaidiyuanxingmingxingming = row[x];
-					disabledForm.value.kuaidiyuanxingmingxingming = true;
+				if(x=='kuaidiyuanxingming'){
+					form.value.kuaidiyuanxingming = row[x];
+					disabledForm.value.kuaidiyuanxingming = true;
 					continue;
 				}
 				if(x=='gongsizhanghao'){
@@ -412,7 +412,7 @@
 			kuaidiyuanzhanghaoLists.value = res.data.data
 		})
 		//由上级字段带出不可改
-		disabledForm.value.kuaidiyuanxingmingxingming = true;
+		disabledForm.value.kuaidiyuanxingming = true;
 	}
 	//初始化
 	//取消
@@ -425,9 +425,9 @@
 			url: `follow/kuaidiyuan/kuaidiyuanzhanghao?columnValue=` + form.value.kuaidiyuanzhanghao,
 			method: 'get'
 		}).then(res=>{
-			//带出快递员姓名姓名字段
-			if(res.data.data.kuaidiyuanxingmingxingming){
-				form.value.kuaidiyuanxingmingxingming = res.data.data.kuaidiyuanxingmingxingming
+			//带出快递员姓名字段
+			if(res.data.data.kuaidiyuanxingming){
+				form.value.kuaidiyuanxingming = res.data.data.kuaidiyuanxingming
 			}
 		})
 	}
