@@ -22,6 +22,16 @@
 					</el-input>
 				</div>
 			</div>
+			<div class="search_view">
+				<div class="search_label">
+					订单状态：
+				</div>
+				<div class="search_box">
+					<el-select class="search_sel" v-model="searchQuery.dingdanzhuangtai" placeholder="订单状态" clearable>
+						<el-option v-for="item in dingdanzhuangtaiLists" :key="item" :label="item" :value="item" />
+					</el-select>
+				</div>
+			</div>
 			<div class="search_btn_view">
 				<el-button class="search_btn" type="primary" @click="searchClick">搜索</el-button>
 				<el-button class="add_btn" type="success" v-if="btnAuth('dingdanwancheng','新增')" @click="addClick">新增</el-button>
@@ -227,6 +237,7 @@
 	}
 	//搜索
 	const searchQuery = ref({})
+	const dingdanzhuangtaiLists = ref("已签收,已完成".split(','))
 	//下拉列表
 	const searchClick = () => {
 		listQuery.value.page = 1
@@ -249,6 +260,11 @@
 		let params = JSON.parse(JSON.stringify(listQuery.value))
 		if(searchQuery.value.fengmian&&searchQuery.value.fengmian!=''){
 			params.fengmian = '%' + searchQuery.value.fengmian + '%'
+		}
+		if(searchQuery.value.dingdanzhuangtai&&searchQuery.value.dingdanzhuangtai!=''){
+			params.dingdanzhuangtai = searchQuery.value.dingdanzhuangtai
+		} else {
+			params.dingdanzhuangtai = '已完成'
 		}
 		context?.$http({
 			url: `${tableName}/${centerType.value?'page':'list'}`,
@@ -342,6 +358,18 @@
 				:deep(.search_inp) {
 					.is-focus {
 						box-shadow: none !important;
+					}
+				}
+				// 下拉框
+				:deep(.search_sel) {
+					.select-trigger{
+						height: 100%;
+						.el-input{
+							height: 100%;
+							.is-focus {
+								box-shadow: none !important;
+							}
+						}
 					}
 				}
 			}

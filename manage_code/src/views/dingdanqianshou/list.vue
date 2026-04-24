@@ -260,7 +260,10 @@
 							修改						</el-button>
 						<el-button class="del_btn" type="danger" @click="delClick(scope.row.id)"  v-if="btnAuth('dingdanqianshou','删除')">
 							删除						</el-button>
-						<el-button class="cross_btn" v-if="btnAuth('dingdanqianshou','申述')" type="success" @click="shensuxinxiCrossAddOrUpdateHandler(scope.row,'cross','','','','')">
+						<el-button class="cross_btn" v-if="btnAuth('dingdanqianshou','签收')" type="success" @click="dingdanwanchengCrossAddOrUpdateHandler(scope.row,'cross','','','','')">
+							签收
+						</el-button>
+						<el-button class="cross_btn" v-if="btnAuth('dingdanqianshou','申述')" type="warning" @click="shensuxinxiCrossAddOrUpdateHandler(scope.row,'cross','','','','')">
 							申述
 						</el-button>
 					</template>
@@ -281,6 +284,7 @@
 				@current-change="currentChange"  />
 		</div>
 		<formModel ref="formRef" @formModelChange="formModelChange"></formModel>
+		<dingdanwanchengFormModel ref="dingdanwanchengFormModelRef" @formModelChange="formModelChange"></dingdanwanchengFormModel>
 		<shensuxinxiFormModel ref="shensuxinxiFormModelRef" @formModelChange="formModelChange"></shensuxinxiFormModel>
 	</div>
 </template>
@@ -493,6 +497,27 @@
 		}
 		nextTick(()=>{
 			shensuxinxiFormModelRef.value.init(row.id,'cross','申述',row,'dingdanqianshou',statusColumnName,tips,statusColumnValue)
+		})
+    }
+	import dingdanwanchengFormModel from '@/views/dingdanwancheng/formModel'
+	const dingdanwanchengFormModelRef = ref(null)
+    const dingdanwanchengCrossAddOrUpdateHandler = (row,type,crossOptAudit,crossOptPay,statusColumnName,tips,statusColumnValue) => {
+		context?.$http({
+			url: `dingdanwancheng/page`,
+			method: 'get',
+			params: {
+				page: 1,
+				limit: 1,
+				dingdanbianhao: row.dingdanbianhao
+			}
+		}).then(res => {
+			if(res.data.data.total > 0){
+				context?.$toolUtil.message('该订单已签收','error')
+				return;
+			}
+			nextTick(()=>{
+				dingdanwanchengFormModelRef.value.init(row.id,'cross','签收',row,'dingdanqianshou','','','')
+			})
 		})
     }
 	//初始化

@@ -350,7 +350,7 @@
 			kuaidiyuanzhanghao: '',
 			kuaidiyuanxingming: '',
 			toufangweizhi: '',
-			dingdanzhuangtai: '未签收',
+			dingdanzhuangtai: '已签收',
 		}
 	}
 	//获取info
@@ -521,7 +521,7 @@
 			if(statusColumnValue){
 				crossColumnValue.value = statusColumnValue
 			}
-			form.value.dingdanzhuangtai='未签收'
+			form.value.dingdanzhuangtai='已签收'
 			formVisible.value = true
 		}
 
@@ -546,7 +546,7 @@
 				disabledForm.value.dingdanzhuangtai = true;
 			}
 		})
-		dingdanzhuangtaiLists.value = "已签收,未签收".split(',')
+		dingdanzhuangtaiLists.value = "已签收,已完成".split(',')
 	}
 	//初始化
 	//声明父级调用

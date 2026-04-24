@@ -282,9 +282,6 @@
 							修改						</el-button>
 						<el-button class="del_btn" type="danger" @click="delClick(scope.row.id)"  v-if="btnAuth('dingdanwancheng','删除')">
 							删除						</el-button>
-						<el-button class="cross_btn" v-if="btnAuth('dingdanwancheng','签收')" type="success" @click="dingdanqianshouCrossAddOrUpdateHandler(scope.row,'cross','','','dingdanzhuangtai','已签收','已签收,未签收'.split(',')[0])">
-							签收
-						</el-button>
 					</template>
 				</el-table-column>
 			</el-table>
@@ -303,7 +300,6 @@
 				@current-change="currentChange"  />
 		</div>
 		<formModel ref="formRef" @formModelChange="formModelChange"></formModel>
-		<dingdanqianshouFormModel ref="dingdanqianshouFormModelRef" @formModelChange="formModelChange"></dingdanqianshouFormModel>
 	</div>
 </template>
 <script setup>
@@ -501,22 +497,6 @@
 			window.URL.revokeObjectURL(data)
 		})
 	}
-	import dingdanqianshouFormModel from '@/views/dingdanqianshou/formModel'
-	const dingdanqianshouFormModelRef = ref(null)
-    const dingdanqianshouCrossAddOrUpdateHandler = (row,type,crossOptAudit,crossOptPay,statusColumnName,tips,statusColumnValue) => {
-		if(statusColumnName!=''&&!statusColumnName.startsWith("[")) {
-			var obj = row
-			for (var o in obj){
-				if(o==statusColumnName && obj[o]==statusColumnValue){
-					context?.$toolUtil.message(tips,'error')
-					return;
-				}
-			}
-		}
-		nextTick(()=>{
-			dingdanqianshouFormModelRef.value.init(row.id,'cross','签收',row,'dingdanwancheng',statusColumnName,tips,statusColumnValue)
-		})
-    }
 	//初始化
 	const init = () => {
 		getList()

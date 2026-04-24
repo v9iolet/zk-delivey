@@ -25,13 +25,14 @@
 			<div class="search_btn_view">
 				<el-button class="search_btn" type="primary" @click="searchClick">搜索</el-button>
 				<el-button class="add_btn" type="success" v-if="btnAuth('dingdanqianshou','新增')" @click="addClick">新增</el-button>
+				<el-button class="confirm_btn" type="warning" @click="confirmReceipt">确认收货</el-button>
 			</div>
 		</el-form>
 		<div class="page_list">
 			<div class="data_box">
                 <div class="table_view">
-					<el-table v-loading="listLoading" class="data_table" :data="list" border :row-style="{'cursor':'pointer'}"
-						@row-click="tableDetailClick" :stripe='true'>
+					<el-table ref="multipleTable" v-loading="listLoading" class="data_table" :data="list" border :row-style="{'cursor':'pointer'}"
+						@row-click="tableDetailClick" :stripe='true' @selection-change="handleSelectionChange">
 						<el-table-column :resizable='true' align="left" header-align="left" type="selection" width="55" />
 						<el-table-column label="序号" width="120" :resizable='true' align="left" header-align="left">
 							<template #default="scope">{{ (listQuery.page-1)*listQuery.limit+scope.$index + 1}}</template>
@@ -179,6 +180,9 @@
     import {
         useStore
     } from 'vuex';
+	import {
+		ElMessageBox
+	} from 'element-plus'
     const store = useStore()
     const user = computed(()=>store.getters['user/session'])
 	const context = getCurrentInstance()?.appContext.config.globalProperties;
@@ -198,6 +202,7 @@
 	})
 	const total = ref(0)
 	const listLoading = ref(false)
+	const selectedRows = ref([])
 	//权限验证
 	const btnAuth = (e,a)=>{
 		if(centerType.value){
@@ -252,6 +257,98 @@
 	}
 	const tableDetailClick = (row) => {
 		router.push(`${tableName}Detail?id=` + row.id + (centerType.value?'&&centerType=1':''))
+	}
+	const handleSelectionChange = (selection) => {
+		selectedRows.value = selection
+	}
+	const confirmReceipt = () => {
+		if (selectedRows.value.length === 0) {
+			context?.$toolUtil.message('请至少选择一条订单记录', 'warning')
+			return
+		}
+		ElMessageBox.confirm(
+			`确认对选中的 ${selectedRows.value.length} 条订单执行"确认收货"操作？操作后订单状态将变更为"已完成"。`,
+			'提示',
+			{ confirmButtonText: '确认', cancelButtonText: '取消', type: 'warning' }
+		).then(async () => {
+			const promises = selectedRows.value.map(row => {
+				return new Promise((resolve, reject) => {
+					context?.$http({
+						url: 'dingdanwancheng/lists',
+						method: 'get',
+						params: { dingdanbianhao: row.dingdanbianhao }
+					}).then(res => {
+						const wanchengList = res.data.data
+						if (wanchengList && wanchengList.length > 0) {
+							const wanchengRecord = wanchengList[0]
+							if (wanchengRecord.dingdanzhuangtai === '已签收') {
+								wanchengRecord.dingdanzhuangtai = '已完成'
+								wanchengRecord.wanchengshijian = context?.$toolUtil.getCurDateTime()
+								context?.$http({
+									url: 'dingdanwancheng/update',
+									method: 'post',
+									data: wanchengRecord
+								}).then(() => {
+									context?.$http({
+										url: 'dingdanqianshou/delete',
+										method: 'post',
+										data: [row.id]
+									}).then(() => resolve()).catch(err => reject(err))
+								}).catch(err => reject(err))
+							} else {
+								context?.$toolUtil.message(`订单${row.dingdanbianhao}当前状态为"${wanchengRecord.dingdanzhuangtai}"，无法确认收货`, 'warning')
+								resolve()
+							}
+						} else {
+							const newRecord = {
+								fengmian: row.fengmian,
+								fuwumingcheng: row.fuwumingcheng,
+								fuwuleixing: row.fuwuleixing,
+								fuwujiage: row.fuwujiage,
+								gongsizhanghao: row.gongsizhanghao,
+								gongsimingcheng: row.gongsimingcheng,
+								lianxifangshi: row.lianxifangshi,
+								dingdanbianhao: row.dingdanbianhao,
+								xiadanzhanghao: row.xiadanzhanghao,
+								xiadanren: row.xiadanren,
+								lianxidianhua: row.lianxidianhua,
+								huowumingcheng: row.huowumingcheng,
+								fahuodizhi: row.fahuodizhi,
+								shouhuodizhi: row.shouhuodizhi,
+								shoujianrenxingming: row.shoujianrenxingming,
+								shoujihaoma: row.shoujihaoma,
+								kuaidiyuanzhanghao: row.kuaidiyuanzhanghao,
+								kuaidiyuanxingming: row.kuaidiyuanxingming,
+								wanchengshijian: context?.$toolUtil.getCurDateTime(),
+								dingdanzhuangtai: '已完成',
+								huowumiaoshu: row.huowumiaoshu || '',
+								toufangweizhi: row.toufangweizhi || ''
+							}
+							context?.$http({
+								url: 'dingdanwancheng/save',
+								method: 'post',
+								data: newRecord
+							}).then(() => {
+								context?.$http({
+									url: 'dingdanqianshou/delete',
+									method: 'post',
+									data: [row.id]
+								}).then(() => resolve()).catch(err => reject(err))
+							}).catch(err => reject(err))
+						}
+					}).catch(err => reject(err))
+				})
+			})
+			try {
+				await Promise.all(promises)
+				context?.$toolUtil.message('确认收货操作完成', 'success')
+				selectedRows.value = []
+				getList()
+			} catch (err) {
+				context?.$toolUtil.message('操作过程中出现错误', 'error')
+				getList()
+			}
+		}).catch(() => {})
 	}
 	//下载文件
 	const download = (file) =>{
@@ -348,6 +445,12 @@
 			}
 			// 新增按钮-悬浮
 			.add_btn:hover {
+			}
+			// 确认收货按钮
+			.confirm_btn {
+			}
+			// 确认收货按钮-悬浮
+			.confirm_btn:hover {
 			}
 		}
 	}

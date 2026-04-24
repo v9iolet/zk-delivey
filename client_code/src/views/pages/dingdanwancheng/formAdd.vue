@@ -581,7 +581,7 @@
                 save()
             }
 		})
-		dingdanzhuangtaiLists.value = "已签收,未签收".split(',')
+		dingdanzhuangtaiLists.value = "已签收,未签收,已完成".split(',')
 	}
 	//初始化
 	//取消

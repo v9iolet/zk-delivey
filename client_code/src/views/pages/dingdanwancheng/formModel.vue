@@ -125,7 +125,6 @@
 					<div  class="info_text" >{{detail.dingdanzhuangtai}}</div>
 				</div>
 				<div class="btn_view">
-					<el-button class="cross_btn" v-if="btnFrontAuth('dingdanwancheng','签收')" @click="dingdanqianshouonAcross('签收','','','dingdanzhuangtai','已签收','已签收,未签收'.split(',')[0])" type="warning">签收</el-button>
 					<el-button class="edit_btn" v-if="centerType&&btnAuth('dingdanwancheng','修改')" type="primary" @click="editClick">修改</el-button>
 					<el-button class="del_btn" v-if="centerType&&btnAuth('dingdanwancheng','删除')" type="danger" @click="delClick">删除</el-button>
 				</div>
@@ -267,33 +266,6 @@
 			})
 
 		}).catch(_ => {})
-	}
-	const dingdanqianshouonAcross = async (btnType,crossOptAudit,crossOptPay,statusColumnName,tips,statusColumnValue,type=1) => {
-		if(!context?.$toolUtil.storageGet('frontToken')){
-			context?.$toolUtil.message('请登录后再操作！','error')
-			return false
-		}
-		if(!btnAuth('dingdanwancheng',btnType)){
-			context?.$toolUtil.message('暂无权限操作！','error')
-			return false
-		}
-		context?.$toolUtil.storageSet('crossObj',JSON.stringify(detail.value))
-		context?.$toolUtil.storageSet('crossTable',tableName)
-		context?.$toolUtil.storageSet('crossStatusColumnName',statusColumnName)
-		context?.$toolUtil.storageSet('crossTips',tips)
-		context?.$toolUtil.storageSet('crossStatusColumnValue',statusColumnValue)
-		if(statusColumnName!=''&&!statusColumnName.startsWith("[")) {
-			var obj = detail.value
-			for (var o in obj){
-				if(o==statusColumnName && obj[o]==statusColumnValue){
-					context?.$toolUtil.message(tips,'warning')
-					return;
-				}
-			}
-		}
-		nextTick(()=>{
-			router.push(`/index/dingdanqianshouAdd?type=cross&&id=${detail.value.id}`)
-		})
 	}
 	onMounted(()=>{
 		init()

@@ -282,7 +282,7 @@
 							修改						</el-button>
 						<el-button class="del_btn" type="danger" @click="delClick(scope.row.id)"  v-if="btnAuth('dingdanpeisong','删除')">
 							删除						</el-button>
-						<el-button class="cross_btn" v-if="btnAuth('dingdanpeisong','送达')" type="success" @click="dingdanwanchengCrossAddOrUpdateHandler(scope.row,'cross','','','dingdanzhuangtai','已送达','已送达,未送达'.split(',')[0])">
+						<el-button class="cross_btn" v-if="btnAuth('dingdanpeisong','送达')" type="success" @click="dingdanqianshouCrossAddOrUpdateHandler(scope.row,'cross','','','dingdanzhuangtai','已送达','已送达,未送达'.split(',')[0])">
 							送达
 						</el-button>
 					</template>
@@ -303,7 +303,7 @@
 				@current-change="currentChange"  />
 		</div>
 		<formModel ref="formRef" @formModelChange="formModelChange"></formModel>
-		<dingdanwanchengFormModel ref="dingdanwanchengFormModelRef" @formModelChange="formModelChange"></dingdanwanchengFormModel>
+		<dingdanqianshouFormModel ref="dingdanqianshouFormModelRef" @formModelChange="formModelChange"></dingdanqianshouFormModel>
 	</div>
 </template>
 <script setup>
@@ -501,9 +501,9 @@
 			window.URL.revokeObjectURL(data)
 		})
 	}
-	import dingdanwanchengFormModel from '@/views/dingdanwancheng/formModel'
-	const dingdanwanchengFormModelRef = ref(null)
-    const dingdanwanchengCrossAddOrUpdateHandler = (row,type,crossOptAudit,crossOptPay,statusColumnName,tips,statusColumnValue) => {
+	import dingdanqianshouFormModel from '@/views/dingdanqianshou/formModel'
+	const dingdanqianshouFormModelRef = ref(null)
+    const dingdanqianshouCrossAddOrUpdateHandler = (row,type,crossOptAudit,crossOptPay,statusColumnName,tips,statusColumnValue) => {
 		if(statusColumnName!=''&&!statusColumnName.startsWith("[")) {
 			var obj = row
 			for (var o in obj){
@@ -514,7 +514,7 @@
 			}
 		}
 		nextTick(()=>{
-			dingdanwanchengFormModelRef.value.init(row.id,'cross','送达',row,'dingdanpeisong',statusColumnName,tips,statusColumnValue)
+			dingdanqianshouFormModelRef.value.init(row.id,'cross','送达',row,'dingdanpeisong',statusColumnName,tips,statusColumnValue)
 		})
     }
 	//初始化
